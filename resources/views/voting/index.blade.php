@@ -17,7 +17,7 @@
                 <button type="submit" class="btn btn-danger btn-sm">Keluar</button>
             </form>
         </div>
-        <h2 class="text-center mb-4">Silakan Pilih Kandidat</h2>
+        <h2 class="text-center mb-4">Silakan Pilih Kandidat {{ $election->name }}</h2>
 
         @if (session('success'))
             <div class="alert alert-success text-center">{{ session('success') }}</div>

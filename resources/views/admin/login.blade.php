@@ -4,12 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login Form</title>
+    <title>Login Admin</title>
     <link rel="icon" type="image/png" href="{{ asset('icon.png') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
+<style>
+    body {
+        background: url('https://dl.imgdrop.io/file/aed8b140-8472-4813-922b-7ce35ef93c9e/2025/06/12/Untitled-design0f4953b98fc9ca94.png');
+        background-size: cover;
+    }
+</style>
 <body class="bg-light d-flex align-items-center justify-content-center vh-100">
     @if ($errors->any())
         <div class="alert alert-danger text-center">

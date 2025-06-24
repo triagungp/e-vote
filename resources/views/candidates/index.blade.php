@@ -25,7 +25,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>NO</th>
                     <th>Nama</th>
                     <th>Foto</th>
                     <th>Pemilihan</th>
@@ -35,15 +35,17 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($candidates as $candidate)
+                @forelse ($candidates as $index => $candidate)
+                {{-- @foreach ($elections as $index => $election) --}}
+
                     <tr>
-                        <td>{{ $candidate->id }}</td>
+                        <td>{{ $index + 1 }}</td>
                         <td>{{ $candidate->name }}</td>
                         <td>
                             @if ($candidate->photo)
                                 <img src="{{ asset('storage/' . $candidate->photo) }}" width="60">
                             @else
-                                Tidak ada
+                                <img src="storage/photos/default.jpg" width="60">
                             @endif
                         </td>
                         <td>{{ $candidate->election->name ?? '-' }}</td>
@@ -66,7 +68,7 @@
                 @empty
                     <tr>
                         <td colspan="6" class="text-center text-muted">Belum ada kandidat</td>
-                    </tr>  
+                    </tr>
                 @endforelse
             </tbody>
         </table>

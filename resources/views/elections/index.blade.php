@@ -16,7 +16,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>NO</th>
                     <th>Nama</th>
                     <th>Deskripsi</th>
                     <th>Waktu Mulai</th>
@@ -25,9 +25,9 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($elections as $election)
+                @forelse ($elections as $index => $election)
                     <tr>
-                        <td>{{ $election->id }}</td>
+                        <td>{{ $index + 1 }}</td>
                         <td>{{ $election->name }}</td>
                         <td>{{ $election->description }}</td>
                         <td>{{ \Carbon\Carbon::parse($election->start_time)->format('d-m-Y H:i:s') }}</td>

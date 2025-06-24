@@ -42,7 +42,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>NO</th>
                 <th>Token</th>
                 <th>Pemilihan</th>
                 <th>Status</th>
@@ -52,9 +52,9 @@
         </thead>
 
         <tbody>
-            @forelse($voters as $voter)
+            @forelse($voters as $index => $voter)
                 <tr>
-                    <td>{{ $voter->id }}</td>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $voter->token }}</td>
                     <td>{{ $voter->election->name ?? '-' }}</td>
                     <td>

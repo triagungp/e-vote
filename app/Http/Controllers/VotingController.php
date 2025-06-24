@@ -17,8 +17,9 @@ class VotingController extends Controller
         }
 
         $candidates = Candidate::where('election_id', $voter->election_id)->get();
+        $election = $candidates->first() ? $candidates->first()->election : null;
 
-        return view('voting.index', compact('candidates', 'voter'));
+        return view('voting.index', compact('candidates', 'voter', 'election'));
     }
 
     public function vote(Request $request, $id)

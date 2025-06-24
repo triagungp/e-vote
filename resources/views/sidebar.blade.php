@@ -16,6 +16,8 @@
     body {
         margin: 0;
         font-family: Arial, sans-serif;
+        /* background: url('https://wallpapers.com/images/hd/vote-hands-election-v6cm48z005s4o51e.jpg') no-repeat center center fixed;
+        background-size: cover; */
     }
 
     .sidebar {
@@ -71,7 +73,7 @@
 <div class="sidebar bg-dark text-white p-3" style="min-height: 100vh;">
     <h4 class="text-center mb-4">
         <br>
-        <i class="bi bi-check-circle-fill"> e-Vote</i> 
+        <i class="bi bi-check-circle-fill"> e-Vote</i>
     </h4>
     <ul class="nav flex-column">
         <a href="dashboard"> Dashboard</a>
