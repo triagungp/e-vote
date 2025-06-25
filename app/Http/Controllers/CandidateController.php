@@ -11,17 +11,18 @@ class CandidateController extends Controller
 {
     public function index(Request $request)
     {
-        $electionId = $request->query('election_id');
-
         $elections = Election::all();
+        $selectedElection = $request->query('election_id');
+
 
         $candidates = Candidate::with('election')
-            ->when($electionId, function ($query, $electionId) {
+            ->when($selectedElection, function ($query, $electionId) {
                 return $query->where('election_id', $electionId);
             })
+            ->latest()
             ->simplePaginate(3);
 
-        return view('candidates.index', compact('candidates', 'elections'));
+        return view('candidates.index', compact('candidates', 'selectedElection', 'elections'));
     }
 
 

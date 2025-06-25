@@ -27,25 +27,65 @@
         </div>
     </form>
 
-    <form method="GET" class="mb-3">
-        <label>Filter Pemilihan</label>
-        <select name="election_id" class="form-control" onchange="this.form.submit()">
-            <option value="">-- Pilih --</option>
-            @foreach ($elections as $election)
-                <option value="{{ $election->id }}" {{ $selectedElection == $election->id ? 'selected' : '' }}>
-                    {{ $election->name }}
-                </option>
-            @endforeach
-        </select>
-    </form>
-
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>NO</th>
                 <th>Token</th>
-                <th>Pemilihan</th>
-                <th>Status</th>
+                <th>
+                    Pemilihan
+                    <div class="dropdown d-inline">
+                        <button class="btn btn-link btn-sm p-0" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" title="Filter Pemilihan">
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item {{ request('election_id') == '' ? 'active' : '' }}"
+                                    href="{{ request()->fullUrlWithQuery(['election_id' => null]) }}">
+                                    Semua
+                                </a>
+                            </li>
+                            @foreach ($elections as $election)
+                                <li>
+                                    <a class="dropdown-item {{ request('election_id') == $election->id ? 'active' : '' }}"
+                                        href="{{ request()->fullUrlWithQuery(['election_id' => $election->id]) }}">
+                                        {{ $election->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </th>
+                <th class="text-center" style="width: 120px;">
+                    Status
+                    <div class="dropdown d-inline">
+                        <button class="btn btn-link btn-sm p-0" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" title="Filter Status">
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item {{ request('status') == '' ? 'active' : '' }}"
+                                    href="{{ request()->fullUrlWithQuery(['status' => null]) }}">
+                                    Semua
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ request('status') == 'used' ? 'active' : '' }}"
+                                    href="{{ request()->fullUrlWithQuery(['status' => 'used']) }}">
+                                    Digunakan
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ request('status') == 'unused' ? 'active' : '' }}"
+                                    href="{{ request()->fullUrlWithQuery(['status' => 'unused']) }}">
+                                    Belum
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </th>
                 <th>Waktu Vote</th>
                 <th>Kandidat Dipilih</th>
             </tr>
@@ -73,11 +113,10 @@
             @empty
                 <tr>
                     <td colspan="6" class="text-center text-muted">Belum ada token</td>
-                </tr>  
+                </tr>
             @endforelse
         </tbody>
 
     </table>
-
-    {{ $voters->withQueryString()->links() }}
+    {{ $voters->links() }}
 </div>

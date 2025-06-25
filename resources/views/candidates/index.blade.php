@@ -1,6 +1,25 @@
-@include('sidebar')
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Kandidat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        /* Add any custom CSS here */
+        .main-content {
+            padding: 20px;
+        }
+        .table img {
+            max-width: 60px;
+            height: auto;
+        }
+    </style>
+</head>
 <body>
+    @include('sidebar') {{-- Assuming 'sidebar' contains your sidebar HTML --}}
+
     <div class="main-content">
         <h2 class="mb-4">Daftar Kandidat</h2>
 
@@ -8,27 +27,39 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <!-- Button Tambah -->
         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">+ Tambah
             Kandidat</button>
-        <form method="GET" class="mb-3">
-            <label for="electionFilter">Filter Pemilihan</label>
-            <select name="election_id" id="electionFilter" class="form-control" onchange="this.form.submit()">
-                <option value="">-- Pilih --</option>
-                @foreach ($elections as $election)
-                    <option value="{{ $election->id }}" {{ request('election_id') == $election->id ? 'selected' : '' }}>
-                        {{ $election->name }}
-                    </option>
-                @endforeach
-            </select>
-        </form>
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>NO</th>
                     <th>Nama</th>
                     <th>Foto</th>
-                    <th>Pemilihan</th>
+                    <th>
+                        Pemilihan
+                        <div class="dropdown d-inline">
+                            <button class="btn btn-link btn-sm p-0" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" title="Filter Pemilihan">
+                                <i class="bi bi-chevron-down"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item {{ request('election_id') == '' ? 'active' : '' }}"
+                                        href="{{ request()->fullUrlWithQuery(['election_id' => null]) }}">
+                                        Semua
+                                    </a>
+                                </li>
+                                @foreach ($elections as $election)
+                                    <li>
+                                        <a class="dropdown-item {{ request('election_id') == $election->id ? 'active' : '' }}"
+                                            href="{{ request()->fullUrlWithQuery(['election_id' => $election->id]) }}">
+                                            {{ $election->name }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </th>
                     <th>Visi</th>
                     <th>Misi</th>
                     <th>Aksi</th>
@@ -36,8 +67,6 @@
             </thead>
             <tbody>
                 @forelse ($candidates as $index => $candidate)
-                {{-- @foreach ($elections as $index => $election) --}}
-
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $candidate->name }}</td>
@@ -45,18 +74,16 @@
                             @if ($candidate->photo)
                                 <img src="{{ asset('storage/' . $candidate->photo) }}" width="60">
                             @else
-                                <img src="storage/photos/default.jpg" width="60">
+                                <img src="{{ asset('storage/photos/default.jpg') }}" width="60">
                             @endif
                         </td>
                         <td>{{ $candidate->election->name ?? '-' }}</td>
                         <td>{{ Str::limit($candidate->vision, 50) }}</td>
                         <td>{{ Str::limit($candidate->mission, 50) }}</td>
                         <td>
-                            <!-- Button Edit -->
                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#editModal{{ $candidate->id }}">Edit</button>
 
-                            <!-- Form Hapus -->
                             <form action="{{ route('candidates.destroy', $candidate->id) }}" method="POST"
                                 style="display:inline;" onsubmit="return confirm('Yakin hapus?')">
                                 @csrf
@@ -67,14 +94,13 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center text-muted">Belum ada kandidat</td>
+                        <td colspan="7" class="text-center text-muted">Belum ada kandidat</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
         {{ $candidates->links() }}
 
-        <!-- Modal Edit -->
         @foreach ($candidates as $candidate)
             <div class="modal fade" id="editModal{{ $candidate->id }}" tabindex="-1">
                 <div class="modal-dialog">
@@ -126,7 +152,6 @@
         @endforeach
     </div>
 
-    <!-- Modal Tambah -->
     <div class="modal fade" id="createModal" tabindex="-1">
         <div class="modal-dialog">
             <form action="{{ route('candidates.store') }}" method="POST" class="modal-content"
@@ -171,8 +196,5 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

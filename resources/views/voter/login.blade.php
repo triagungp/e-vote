@@ -12,8 +12,7 @@
 
 
 <body class="bg-light d-flex align-items-center justify-content-center vh-100"
-    style="background: url('{{ asset('background.png') }}') center center fixed; background-size: cover;">
-
+    style="background: url('{{ asset('background3.png') }}') center center fixed; background-size: cover;">
     <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
         <!-- Form Login Token -->
         <div id="form-login-token">

@@ -15,16 +15,22 @@ class TokenController extends Controller
     {
         $elections = Election::all();
         $selectedElection = $request->query('election_id');
+        $status = $request->query('status'); // ambil status dari request
 
         $voters = Voter::with(['election', 'candidate'])
             ->when($selectedElection, function ($query, $electionId) {
                 return $query->where('election_id', $electionId);
             })
+            ->when($status === 'used', function ($query) {
+                return $query->where('used', true);
+            })
+            ->when($status === 'unused', function ($query) {
+                return $query->where('used', false);
+            })
             ->latest()
-            ->paginate(10);
+            ->simplePaginate(10);
 
-
-        return view('tokens.index', compact('elections', 'voters', 'selectedElection'));
+        return view('tokens.index', compact('elections', 'voters', 'selectedElection', 'status'));
     }
 
     public function generate(Request $request)
