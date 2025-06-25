@@ -36,4 +36,5 @@ Route::middleware('customauth')->group(function () {
 
     Route::get('/tokens', [TokenController::class, 'index'])->name('tokens.index');
     Route::post('/tokens/generate', [TokenController::class, 'generate'])->name('tokens.generate');
+    Route::delete('/tokens/{voter}', [TokenController::class, 'destroy'])->name('tokens.destroy');
 });

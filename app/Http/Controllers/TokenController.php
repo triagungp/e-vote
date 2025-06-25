@@ -49,4 +49,9 @@ class TokenController extends Controller
 
         return redirect()->route('tokens.index')->with('success', 'Token berhasil dibuat.');
     }
+    public function destroy(Voter $voter)
+    {
+        $voter->delete();
+        return redirect()->back()->with('success', 'Token berhasil dihapus.');
+    }
 }

@@ -71,7 +71,7 @@ class CandidateController extends Controller
         return redirect()->back()->with('success', 'Kandidat berhasil diperbarui.');
     }
 
-        public function destroy(Candidate $candidate)
+    public function destroy(Candidate $candidate)
     {
         $candidate->delete();
         return redirect()->back()->with('success', 'Kandidat berhasil dihapus.');

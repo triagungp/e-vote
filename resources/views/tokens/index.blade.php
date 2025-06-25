@@ -88,6 +88,7 @@
                 </th>
                 <th>Waktu Vote</th>
                 <th>Kandidat Dipilih</th>
+                <th>Aksi</th>
             </tr>
         </thead>
 
@@ -109,6 +110,14 @@
                     </td>
 
                     <td>{{ $voter->candidate->name ?? '-' }}</td>
+                    <td>
+                        <form action="{{ route('tokens.destroy', $voter->id) }}" method="POST" class="d-inline"
+                            onsubmit="return confirm('Hapus token ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm">Hapus</button>
+                        </form>
+                    </td>
                 </tr>
             @empty
                 <tr>
